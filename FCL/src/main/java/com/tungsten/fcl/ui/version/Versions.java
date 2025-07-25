@@ -217,10 +217,7 @@ public class Versions {
             builder.setAlertLevel(FCLAlertDialog.AlertLevel.ALERT);
             builder.setTitle(context.getString(R.string.launch_failed));
             builder.setMessage(context.getString(R.string.version_empty_launch));
-            builder.setNegativeButton(context.getString(com.tungsten.fcllibrary.R.string.dialog_positive), () -> {
-                MainActivity.getInstance().refreshMenuView(null);
-                MainActivity.getInstance().binding.download.setSelected(true);
-            });
+            builder.setNegativeButton(context.getString(com.tungsten.fcllibrary.R.string.dialog_positive), null);
             builder.create().show();
             return false;
         } else {
