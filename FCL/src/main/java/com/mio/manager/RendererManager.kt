@@ -8,12 +8,7 @@ import com.tungsten.fclauncher.plugins.RendererPlugin
 import com.tungsten.fclauncher.utils.FCLPath
 
 object RendererManager {
-    lateinit var RENDERER_GL4ES: Renderer
-    lateinit var RENDERER_VIRGL: Renderer
-    lateinit var RENDERER_VGPU: Renderer
-    lateinit var RENDERER_ZINK: Renderer
-    lateinit var RENDERER_FREEDRENO: Renderer
-    lateinit var RENDERER_GL4ESPLUS: Renderer
+    lateinit var RENDERER_MOBILEGLUES: Renderer
     private var isInit = false
 
     @JvmStatic
@@ -28,80 +23,16 @@ object RendererManager {
     fun init(context: Context) {
         isInit = true
         rendererList.clear()
-        RENDERER_GL4ES = Renderer(
-            "Holy-GL4ES",
-            context.getString(R.string.settings_fcl_renderer_gl4es),
-            "libgl4es_114.so",
+        RENDERER_MOBILEGLUES = Renderer(
+            "MobileGlues",
+            "MobileGlues『内置的』",
+            "libmobileglues.so",
             "libEGL.so",
             "",
             null,
             null,
-            Renderer.ID_GL4ES,
-            "",
-            "1.21.4"
-        )
-
-        RENDERER_VIRGL = Renderer(
-            "VirGLRenderer",
-            context.getString(R.string.settings_fcl_renderer_virgl),
-            "libOSMesa_81.so",
-            "libEGL.so",
-            "",
-            null,
-            null,
-            Renderer.ID_VIRGL,
-            "",
-            ""
-        )
-
-        RENDERER_VGPU = Renderer(
-            "VGPU",
-            context.getString(R.string.settings_fcl_renderer_vgpu),
-            "libvgpu.so",
-            "libEGL.so",
-            "",
-            null,
-            null,
-            Renderer.ID_VGPU,
-            "",
-            "1.16.5"
-        )
-        RENDERER_ZINK = Renderer(
-            "Zink",
-            context.getString(R.string.settings_fcl_renderer_zink),
-            "libOSMesa_8.so",
-            "libEGL.so",
-            "",
-            null,
-            null,
-            Renderer.ID_ZINK,
-            "",
-            ""
-        )
-
-        RENDERER_FREEDRENO = Renderer(
-            "Freedreno",
-            context.getString(R.string.settings_fcl_renderer_freedreno),
-            "libOSMesa_8.so",
-            "libEGL.so",
-            "",
-            null,
-            null,
-            Renderer.ID_FREEDRENO,
-            "",
-            ""
-        )
-
-        RENDERER_GL4ESPLUS = Renderer(
-            "GL4ES+",
-            context.getString(R.string.settings_fcl_renderer_gl4esp),
-            "libgl4es_plus.so",
-            "libEGL.so",
-            "",
-            null,
-            null,
-            Renderer.ID_GL4ESPLUS,
-            "",
+            Renderer.ID_MOBILEGLUES,
+            "1.17",
             ""
         )
         RendererPlugin.init(context)
@@ -110,12 +41,7 @@ object RendererManager {
     }
 
     private fun addRenderer() {
-        rendererList.add(RENDERER_GL4ES)
-        rendererList.add(RENDERER_VIRGL)
-        rendererList.add(RENDERER_VGPU)
-        rendererList.add(RENDERER_ZINK)
-        rendererList.add(RENDERER_FREEDRENO)
-        rendererList.add(RENDERER_GL4ESPLUS)
+        rendererList.add(RENDERER_MOBILEGLUES)
         rendererList.addAll(RendererPlugin.rendererList)
     }
 
@@ -127,7 +53,7 @@ object RendererManager {
 
     @JvmStatic
     fun getRenderer(id: String): Renderer {
-        return rendererList.find { it.id == id } ?: RENDERER_GL4ES
+        return rendererList.find { it.id == id } ?: RENDERER_MOBILEGLUES
     }
 
     @JvmStatic

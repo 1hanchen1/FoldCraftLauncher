@@ -1,6 +1,6 @@
 package com.tungsten.fcl.setting.rules.extend;
 
-import static com.mio.manager.RendererManager.RENDERER_GL4ES;
+import static com.mio.manager.RendererManager.RENDERER_MOBILEGLUES;
 import static com.mio.manager.RendererManager.getRendererOrNull;
 import static com.tungsten.fcl.util.AndroidUtils.getFirstOrDefault;
 import static com.tungsten.fcl.util.RuleCheckState.*;
@@ -23,7 +23,7 @@ public class RendererRule extends RuleBase {
     @SerializedName("downloadURL")
     private final URL downloadURL;
     private transient String requiredRenderer, setRenderer;
-    private static final Renderer D_RENDERER = RENDERER_GL4ES;
+    private static final Renderer D_RENDERER = RENDERER_MOBILEGLUES;
 
     public RendererRule() {
         super(null);

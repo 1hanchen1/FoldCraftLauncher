@@ -121,7 +121,7 @@ public class JarExecutorLauncher extends Launcher {
                 FCLPath.LOG_DIR,
                 javaVersion == 8 ? FCLPath.JAVA_8_PATH : javaVersion == 11 ? FCLPath.JAVA_11_PATH : javaVersion == 17 ? FCLPath.JAVA_17_PATH : FCLPath.JAVA_21_PATH,
                 Profiles.getSelectedProfile().getGameDir().getAbsolutePath(),
-                RendererManager.RENDERER_GL4ES,
+                RendererManager.RENDERER_MOBILEGLUES,
                 finalArgs
         );
         return FCLauncher.launchJarExecutor(config);

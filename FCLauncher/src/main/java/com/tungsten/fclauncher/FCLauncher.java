@@ -10,6 +10,7 @@ import android.os.Build;
 import android.system.ErrnoException;
 import android.system.Os;
 import android.util.ArrayMap;
+import android.util.Log;
 
 import com.mio.data.Renderer;
 import com.oracle.dalvik.VMLauncher;
@@ -265,72 +266,16 @@ public class FCLauncher {
             }
             return;
         }
-        boolean useAngle = false;
-        if (FCLBridge.BACKEND_IS_BOAT) {
-            envMap.put("LIBGL_STRING", renderer.toString());
-            envMap.put("LIBGL_NAME", renderer.getGlName());
-            if (useAngle && renderer.isEqual(Renderer.ID_GL4ESPLUS)) {
-                envMap.put("LIBEGL_NAME", "libEGL_angle.so");
-                envMap.put("LIBGL_BACKEND_ANGLE", "1");
-            } else {
+        if (renderer.isEqual(Renderer.ID_MOBILEGLUES)) {
+            if (FCLBridge.BACKEND_IS_BOAT) {
+                envMap.put("LIBGL_STRING", renderer.getName());
+                envMap.put("LIBGL_NAME", renderer.getGlName());
                 envMap.put("LIBEGL_NAME", renderer.getEglName());
-                envMap.put("LIBGL_BACKEND_ANGLE", "0");
-            }
-        }
-        if (renderer.isEqual(Renderer.ID_GL4ES) || renderer.isEqual(Renderer.ID_VGPU)) {
-            envMap.put("LIBGL_ES", "2");
-            envMap.put("LIBGL_MIPMAP", "3");
-            envMap.put("LIBGL_NORMALIZE", "1");
-            envMap.put("LIBGL_NOINTOVLHACK", "1");
-            envMap.put("LIBGL_NOERROR", "1");
-            if (!FCLBridge.BACKEND_IS_BOAT) {
-                if (renderer.getId().equals(Renderer.ID_GL4ES)) {
-                    envMap.put("POJAV_RENDERER", "opengles2");
-                } else {
-                    envMap.put("POJAV_RENDERER", "opengles2_vgpu");
-                }
-            }
-        } else if (renderer.isEqual(Renderer.ID_GL4ESPLUS)) {
-            envMap.put("LIBGL_ES", "3");
-            envMap.put("LIBGL_MIPMAP", "3");
-            envMap.put("LIBGL_NORMALIZE", "1");
-            envMap.put("LIBGL_NOINTOVLHACK", "1");
-            envMap.put("LIBGL_SHADERCONVERTER", "1");
-            envMap.put("LIBGL_GL", "21");
-            envMap.put("LIBGL_USEVBO", "1");
-            if (!FCLBridge.BACKEND_IS_BOAT) {
+                envMap.put("LIBGL_ES", "3");
+            } else {
+                envMap.put("POJAVEXEC_EGL", renderer.getEglName());
+                envMap.put("LIBGL_ES", "3");
                 envMap.put("POJAV_RENDERER", "opengles3");
-                envMap.put("POJAVEXEC_EGL", useAngle ? "libEGL_angle.so" : renderer.getEglName());
-            }
-        } else {
-            envMap.put("MESA_GLSL_CACHE_DIR", config.getContext().getCacheDir().getAbsolutePath());
-            envMap.put("MESA_GL_VERSION_OVERRIDE", renderer.isEqual(Renderer.ID_VIRGL) ? "4.3" : "4.6");
-            envMap.put("MESA_GLSL_VERSION_OVERRIDE", renderer.isEqual(Renderer.ID_VIRGL) ? "430" : "460");
-            envMap.put("force_glsl_extensions_warn", "true");
-            envMap.put("allow_higher_compat_version", "true");
-            envMap.put("allow_glsl_extension_directive_midshader", "true");
-            envMap.put("MESA_LOADER_DRIVER_OVERRIDE", "zink");
-            envMap.put("VTEST_SOCKET_NAME", new File(config.getContext().getCacheDir().getAbsolutePath(), ".virgl_test").getAbsolutePath());
-            if (renderer.isEqual(Renderer.ID_VIRGL)) {
-                if (FCLBridge.BACKEND_IS_BOAT) {
-                    envMap.put("GALLIUM_DRIVER", "virpipe");
-                } else {
-                    envMap.put("POJAV_RENDERER", "gallium_virgl");
-                }
-                envMap.put("OSMESA_NO_FLUSH_FRONTBUFFER", "1");
-            } else if (renderer.isEqual(Renderer.ID_ZINK)) {
-                if (FCLBridge.BACKEND_IS_BOAT) {
-                    envMap.put("GALLIUM_DRIVER", "zink");
-                } else {
-                    envMap.put("POJAV_RENDERER", "vulkan_zink");
-                }
-            } else if (renderer.isEqual(Renderer.ID_FREEDRENO)) {
-                if (FCLBridge.BACKEND_IS_BOAT) {
-                    envMap.put("GALLIUM_DRIVER", "freedreno");
-                    envMap.put("MESA_LOADER_DRIVER_OVERRIDE", "kgsl");
-                } else {
-                    envMap.put("POJAV_RENDERER", "gallium_freedreno");
-                }
             }
         }
     }

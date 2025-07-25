@@ -45,15 +45,15 @@ class ProcessService : Service() {
             applicationContext.getDir("runtime", 0).absolutePath + "/java/" + jre,
             applicationContext.cacheDir.toString() + "/fclauncher",
             Renderer(
-                "Holy-GL4ES",
-                "",
-                "libgl4es_114.so",
+                "MobileGlues",
+                "MobileGlues『内置的』",
+                "libmobileglues.so",
                 "libEGL.so",
                 "",
                 null,
                 null,
-                Renderer.ID_GL4ES,
-                "",
+                Renderer.ID_MOBILEGLUES,
+                "1.17",
                 ""
             ),
             command
